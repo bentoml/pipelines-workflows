@@ -63,6 +63,11 @@ jobs:
     env:
       JOB_NAME: "Detect Infrastructure Changes"
     steps:
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: 'bentocloud-admin@bentoml-prod.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/412313301790/locations/global/workloadIdentityPools/github/providers/my-repo'
       - name: Record workflow env vars
         env:
           PIPELINES_BINARY_URL: ${{ inputs.pipelines_binary_url }}
@@ -171,6 +176,11 @@ jobs:
       matrix:
         jobs: ${{ fromJson(needs.pipelines_orchestrate.outputs.pipelines_jobs) }}
     steps:
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: 'bentocloud-admin@bentoml-prod.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/412313301790/locations/global/workloadIdentityPools/github/providers/my-repo'
       - name: Record workflow env vars
         env:
           PIPELINES_BINARY_URL: ${{ inputs.pipelines_binary_url }}
@@ -291,6 +301,11 @@ jobs:
     needs: [pipelines_orchestrate, pipelines_execute]
     if: always()
     steps:
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: 'bentocloud-admin@bentoml-prod.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/412313301790/locations/global/workloadIdentityPools/github/providers/my-repo'
       - name: Record workflow env vars
         env:
           PIPELINES_BINARY_URL: ${{ inputs.pipelines_binary_url }}
